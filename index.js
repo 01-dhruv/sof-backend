@@ -14,6 +14,7 @@ app.use(cors());
 
 
 app.get('/', (req, res) => {
+    console.log("Hello")
     res.send("This is a stack Overflow Clone API")
 })
 
