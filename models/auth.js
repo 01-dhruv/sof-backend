@@ -6,7 +6,11 @@ const userSchema = mongoose.Schema({
     password : {type : String, required: true},
     about : {type : String },
     tags: { type: [String] },
-    joinedOn : {type : Date, default: Date.now}
+    joinedOn : {type : Date, default: Date.now},
+    points: { type: Number, default: 0 }, // New field to track user points
+    questions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Question' }], // Reference to Question model
+    answers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Answer' }], // Reference to Answer model
+
 })
 
 

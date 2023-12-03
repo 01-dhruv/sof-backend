@@ -1,5 +1,6 @@
 import Questions from "../models/Questions.js"
 import mongoose from "mongoose"
+import users from '../models/auth.js'
 
 export const AskQuestion = async (req, res) => {
     const postQuestionData = req.body;
@@ -7,6 +8,31 @@ export const AskQuestion = async (req, res) => {
 
     try {
         await postQuestion.save();
+
+        const { userId: _id } = req.body;
+        console.log('UserId:', _id); // Log to check if userId is properly extracted
+
+        // Assuming you have userId in req.user after authentication
+        const user = await users.findById(_id);
+
+        if (user) {
+            user.questions.push(postQuestion._id);
+            console.log('console', postQuestion._id)
+            const questionCount = user.questions.length;
+
+            if (questionCount >= 5 && questionCount < 10) {
+                user.points += 10;
+            } else if (questionCount >= 10 && questionCount < 15) {
+                user.points += 20;
+            } else if (questionCount >= 15) {
+                user.points += 30;
+            }
+
+            console.log(user.points);
+
+            await user.save();
+        }
+
         res.status(200).json('Posted a question Successfully')
     } catch (error) {
         console.log(error)
