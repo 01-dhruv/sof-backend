@@ -5,6 +5,7 @@ import cors from 'cors'
 import userRoutes from './routes/Users.js'
 import questionRoutes from './routes/Questions.js'
 import answerRoutes from './routes/Answer.js'
+import LoginHistRoutes from './routes/LoginHist.js'
 
 const app = express();
 dotenv.config();
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 app.use('/user', userRoutes)
 app.use('/questions', questionRoutes)
 app.use('/answer', answerRoutes)
+app.use('/LoginHist', LoginHistRoutes)
 
 
 

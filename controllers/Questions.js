@@ -19,7 +19,7 @@ export const AskQuestion = async (req, res) => {
 export const getAllQuestions = async (req, res) => {
     try {
         const questionList = await Questions.find();
-        console.log(questionList)
+        // console.log(questionList)
         res.status(200).json(questionList);
 
     } catch (error) {

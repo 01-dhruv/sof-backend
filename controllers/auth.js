@@ -22,7 +22,7 @@ export const signup = async (req, res) =>{
 }
 
 
-export const login = async (req, res) =>{
+export const login = async (req, res, next) =>{
     const { email, password } = req.body;
 
     try {
@@ -36,8 +36,17 @@ export const login = async (req, res) =>{
             return res.status(400).json({message : "Invalid Credentials"})
         }
 
+        req.userId = exisitinguser._id.toString();
         const token = jwt.sign({email : exisitinguser.email, id: exisitinguser._id}, process.env.JWT_SECRET, {expiresIn: '1h'});
-        res.status(200).json({result: exisitinguser, token})
+        // res.status(200).json({result: exisitinguser, token})
+        
+        res.status(200).json({ result: exisitinguser, token, userId: exisitinguser._id });
+        next();
+        // req.result = { id: exisitinguser._id };
+        // req.userId = exisitinguser._id;
+
+        // console.log('Namaskar', req.userId)
+        // console.log('Token', exisitinguser._id.toString())
 
     } catch (error) {
         res.staus(500).json("Something Went Wrong")
